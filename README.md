@@ -92,27 +92,18 @@ data/
     ├── trips_by_hour.parquet
     ├── trips_by_vendor.parquet
     └── summary_stats.csv
+
+## Storage compatibility
+
+- The pipeline uses `utils/storage.py` to support both Parquet and gzipped CSV (fallback).
+- `write()` ensures that output directories exist and selects `.parquet` if `pyarrow` is present.
+- `read()` handles `.parquet`, `.csv`, `.csv.gz`, and `.gz` transparently.
+- Test coverage is in `tests/test_storage.py` and also used by Bronze tests.
 ```
 
 ## Key Metrics Produced (Gold Layer)
 
-- 🕐 **Trips by hour of day** — demand patterns
-- 🚖 **Trips by vendor** — vendor share
-- 💵 **Average fare & tip by passenger count**
-- 📊 **Overall summary statistics**
-
-## Configuration
-
-Edit `config/settings.py` to adjust:
-
-```python
-API_LIMIT = 1000        # rows to fetch per run
-DATA_ROOT = "data/"     # output directory
-```
-
-## Extending This Pipeline
-
-- **Swap the data source**: Update `config/settings.py` with any Socrata endpoint
-- **Add scheduling**: Wrap `pipeline.py` with `cron`, Airflow, or Prefect
-- **Add a lakehouse**: Replace local Parquet with Delta Lake or Iceberg
-- **Add dbt**: Point dbt at the Silver layer for SQL-based Gold transforms
+-  **Trips by hour of day** — demand patterns
+-  **Trips by vendor** — vendor share
+-  **Average fare & tip by passenger count**
+-  **Overall summary statistics**
