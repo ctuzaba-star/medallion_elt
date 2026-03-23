@@ -1,0 +1,3 @@
+pandas>=2.0.0
+pyarrow>=14.0.0  # optional: improves Parquet performance; falls back to fastparquet
+pytest>=7.4.0
