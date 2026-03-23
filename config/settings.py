@@ -25,6 +25,9 @@ NYC_TAXI_API_URL = "https://data.cityofnewyork.us/resource/gkne-dk5s.json"
 
 # Number of rows to fetch per pipeline run (max 50,000 without pagination)
 API_LIMIT = 1_000
+# Incremental ingestion and partitioning
+INCREMENTAL_LOOKBACK_HOURS = 24
+BRONZE_PARTITION_BY_DATE = True
 
 # ── Schema expectations (Silver layer) ───────────────────────────────────────
 REQUIRED_COLUMNS = [

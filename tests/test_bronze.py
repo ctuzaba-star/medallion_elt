@@ -7,6 +7,7 @@ from unittest.mock import patch, MagicMock
 
 import pandas as pd
 from utils.storage import read as storage_read
+from config import settings
 
 from bronze.ingest import fetch_raw_data, save_bronze
 
@@ -72,6 +73,21 @@ class TestSaveBronze(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(ValueError):
                 save_bronze([], output_dir=Path(tmp))
+                
+        def test_last_ingested_marker_is_created(self):
+            with tempfile.TemporaryDirectory() as tmp:
+                settings.BRONZE_DIR = Path(tmp)
+                path = save_bronze(SAMPLE_RECORDS, output_dir=settings.BRONZE_DIR)
+                marker = settings.BRONZE_DIR / ".last_ingested"
+                self.assertTrue(marker.exists())
+
+        def test_partitioned_path_is_created(self):
+            with tempfile.TemporaryDirectory() as tmp:
+                settings.BRONZE_DIR = Path(tmp)
+                path = save_bronze(SAMPLE_RECORDS, output_dir=settings.BRONZE_DIR)
+                self.assertIn("year=", str(path))
+                self.assertIn("month=", str(path))
+                self.assertIn("day=", str(path))
 
 
 if __name__ == "__main__":
