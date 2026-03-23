@@ -20,6 +20,17 @@ A simple, production-style **Bronze → Silver → Gold** medallion architecture
 | Silver | Cleaned, validated, typed | Parquet |
 | Gold   | Aggregated business metrics | Parquet / CSV |
 
+## Data Governance
+
+A governance layer (`governance/rules.py`) provides schema validation and data quality checks:
+
+- **ValidationRule**: Single quality rule with a check function and severity level.
+- **DataQualityReport**: Accumulates results and provides summaries.
+- **GovernanceEngine**: Applies rule sets to dataframes.
+- **Predefined rule sets** for Bronze, Silver, and Gold layers.
+
+Example: check for null values, valid ranges, and data type consistency. See `tests/test_governance.py` for usage examples.
+
 ## Data Source
 
 **NYC TLC Trip Record Data** via NYC Open Data Socrata API — free, no API key required.
