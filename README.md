@@ -1,17 +1,19 @@
-# 🥇 Medallion ELT Pipeline
+# Medallion ELT Pipeline
 
-A simple, production-style **Bronze → Silver → Gold** medallion architecture ELT pipeline using **public NYC taxi trip data** from the NYC Open Data API.
+A small, production-style ELT pipeline using a Bronze → Silver → Gold medallion architecture.
+
+I built this to simulate how raw event data evolves into analytics-ready datasets, with an emphasis on data quality checks, schema consistency, and reproducible transformations.
 
 ## Architecture Overview
 
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   BRONZE    │───▶│   SILVER    │───▶│    GOLD     │
-│  Raw Data   │    │  Cleaned    │    │  Aggregated │
-│  (as-is)    │    │  Validated  │    │  Analytics  │
-└─────────────┘    └─────────────┘    └─────────────┘
-     extract            transform          transform
-      + load
+I used a medallion-style structure to keep transformations explicit and traceable:
+
+- Bronze preserves raw data for reproducibility
+- Silver enforces schema and basic data quality
+- Gold produces analytics-ready aggregates
+
+This separation makes it easier to debug issues and evolve logic without breaking downstream outputs.
 ```
 
 | Layer  | Purpose | Format |
